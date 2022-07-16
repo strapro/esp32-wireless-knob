@@ -11,7 +11,7 @@ struct_message myMessage;
 void dataReceiveCallback(const uint8_t * mac, const uint8_t *incomingData, int len) {
   memcpy(&myMessage, incomingData, sizeof(myMessage));
   
-  Serial.print("Bytes received: ");t
+  Serial.print("Bytes received: ");
   Serial.println(len);
   
   Serial.print("Action: ");
@@ -32,5 +32,5 @@ void setup(){
 }
  
 void loop(){
-
+  delay(100);
 }
