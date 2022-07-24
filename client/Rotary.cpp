@@ -6,17 +6,17 @@
 
 uint8_t state=0;
 
-long int rotValue=0, 
-         swValue=0;
+long int rot_value=0, 
+         sw_value=0;
 
 void (*clockwise_callback)(long int), 
      (*counter_clockwise_callback)(long int), 
      (*button_callback)(long int);
 
-portMUX_TYPE gpioMux = portMUX_INITIALIZER_UNLOCKED;
+portMUX_TYPE gpio_mux = portMUX_INITIALIZER_UNLOCKED;
 
 void IRAM_ATTR interrupt_rotation() {
-  portENTER_CRITICAL_ISR(&gpioMux);
+  portENTER_CRITICAL_ISR(&gpio_mux);
   
   uint8_t s = state & 3;
 
@@ -25,12 +25,12 @@ void IRAM_ATTR interrupt_rotation() {
 
   switch (s) {
     case 1: case 14:
-      rotValue++;        
-      clockwise_callback(rotValue);
+      rot_value++;        
+      clockwise_callback(rot_value);
       break;
     case 2: case 13:
-      rotValue--;       
-      counter_clockwise_callback(rotValue);
+      rot_value--;       
+      counter_clockwise_callback(rot_value);
       break;
     default:
       break;
@@ -38,17 +38,17 @@ void IRAM_ATTR interrupt_rotation() {
   
   state = (s >> 2);
   
-  portEXIT_CRITICAL_ISR(&gpioMux);
+  portEXIT_CRITICAL_ISR(&gpio_mux);
 }
 
 
 void IRAM_ATTR interrupt_switch() {
-  portENTER_CRITICAL_ISR(&gpioMux);
+  portENTER_CRITICAL_ISR(&gpio_mux);
 
-  swValue++;    
-  button_callback(swValue);
+  sw_value++;    
+  button_callback(sw_value);
   
-  portEXIT_CRITICAL_ISR(&gpioMux);
+  portEXIT_CRITICAL_ISR(&gpio_mux);
 }
 
 void setup_rotary(void (*clockwise_cb)(long int), 

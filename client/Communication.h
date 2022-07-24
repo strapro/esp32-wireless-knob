@@ -4,6 +4,6 @@
 #include "Message.h"
 
 void send_message(struct_message message);
-void setup_communication();
+void setup_communication(void (*datasent_cb)(bool));
 
 #endif

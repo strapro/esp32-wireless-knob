@@ -2,34 +2,51 @@
 #include "Message.h"
 #include "Rotary.h"
 
-struct_message myMessage;
+struct_message my_message;
 
-void on_clockwise(long int currentRotation) {
-  Serial.print("Clockwise ");
-  Serial.println(currentRotation);
+long int current_rotation = 0,
+         times_pressed = 0;
+
+void on_clockwise(long int rotation) {
+  current_rotation = rotation;
   
-  myMessage.action = 1;
+  my_message.action = 1;
   
-  send_message(myMessage);
+  send_message(my_message);
 }
 
-void on_counter_clockwise(long int currentRotation) {
-  Serial.print("Counter clockwise ");
-  Serial.println(currentRotation);
+void on_counter_clockwise(long int rotation) {
+  current_rotation = rotation;
   
-  myMessage.action = 2;
+  my_message.action = 2;
   
-  send_message(myMessage);
+  send_message(my_message);
 }
 
-void on_button(long int timesPressed) {
-  Serial.print("Times pressed ");
-  Serial.println(timesPressed);
+void on_button(long int pressed) {
+  times_pressed = pressed;
   
-  myMessage.action = 3;
+  my_message.action = 3;
   
-  send_message(myMessage);
+  send_message(my_message);
 }
+
+void on_data_sent(bool status) {
+  Serial.print("Rotation: ");
+  Serial.println(current_rotation);
+
+  Serial.print("Times pressed: ");
+  Serial.println(times_pressed);
+
+  Serial.print("Action sent: ");
+  Serial.println(my_message.action);
+
+  Serial.print("Sent status: ");
+  Serial.println(status);
+
+  Serial.println("----------------------------------");
+}
+
 
 void setup(){
   Serial.begin(115200);
@@ -38,7 +55,7 @@ void setup(){
                &on_counter_clockwise,
                &on_button);
                
-  setup_communication();
+  setup_communication(&on_data_sent);
 }
 
 void loop(){
