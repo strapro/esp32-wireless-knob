@@ -2,7 +2,7 @@
 
 #define ROTARY_CLK 2
 #define ROTARY_DT 4
-#define ROTARY_SW 6
+#define ROTARY_SW 5
 
 uint8_t state=0;
 

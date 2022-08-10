@@ -1,6 +1,7 @@
-#include "Communication.h"
 #include "Message.h"
+#include "Communication.h"
 #include "Rotary.h"
+#include "Sleep.h"
 
 struct_message my_message;
 
@@ -13,6 +14,7 @@ void on_clockwise(long int rotation) {
   my_message.action = 1;
   
   send_message(my_message);
+  delay_sleep();
 }
 
 void on_counter_clockwise(long int rotation) {
@@ -21,6 +23,7 @@ void on_counter_clockwise(long int rotation) {
   my_message.action = 2;
   
   send_message(my_message);
+  delay_sleep();
 }
 
 void on_button(long int pressed) {
@@ -29,6 +32,7 @@ void on_button(long int pressed) {
   my_message.action = 3;
   
   send_message(my_message);
+  delay_sleep();
 }
 
 void on_data_sent(bool status) {
@@ -56,9 +60,11 @@ void setup(){
                &on_button);
                
   setup_communication(&on_data_sent);
+
+  setup_sleep();
 }
 
 void loop(){
-
+  check_sleep();
 }
   
