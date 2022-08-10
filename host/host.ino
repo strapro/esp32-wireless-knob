@@ -56,6 +56,4 @@ void setup(){
 }
  
 void loop(){
-  Serial.println("loop");  
-  delay(5000);
 }
